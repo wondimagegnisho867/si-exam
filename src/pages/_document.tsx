@@ -1,5 +1,5 @@
 import React from 'react'
-import Document, { Html, Main, NextScript } from 'next/document'
+import Document, { Html, Main, NextScript, Head } from 'next/document'
 import MyHead from '@components/head'
 
 class MyDocument extends Document {
@@ -17,3 +17,4 @@ class MyDocument extends Document {
 }
 
 export default MyDocument
+export {Head}

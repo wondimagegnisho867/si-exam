@@ -1,4 +1,4 @@
-import { Head } from 'next/document';
+import {Head} from '@pages/_document';
 
 const MyHead = () => {
   return <Head>
