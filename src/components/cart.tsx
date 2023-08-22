@@ -15,8 +15,10 @@ const Cart = () => {
     <>
       <table>
         <thead>
-          <th>Product</th>
-          <th>Price</th>
+          <tr>
+            <th>Product</th>
+            <th>Price</th>
+          </tr>
         </thead>
         <tbody>
           {

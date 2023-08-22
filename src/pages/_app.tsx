@@ -6,6 +6,7 @@ import { Inter } from '@next/font/google';
 import Link from 'next/link';
 
 const inter = Inter({ subsets: ['latin'] })
+import MyHead from '@components/head'
 import { store } from '@store/store';
 import { Provider } from 'react-redux';
 import { ThunkDispatch } from 'redux-thunk';
@@ -38,12 +39,14 @@ const App = ({ Component }: { Component: React.ComponentType }) => {
 
   if(cartIsLoading){
     return <div className={styles.loader}>
-      <Image src='/Spinner-1s-200px.svg' alt='Spinner'/>
+      <Image src='/Spinner-1s-200px.svg' alt='Spinner' width={0} height={0}/>
     </div>
   }
   
   return (
-    <Provider store={store}>
+    <>
+    <MyHead/>
+    <Provider store={store}>      
       <main className={styles.main}>
         <div className={styles.description}>
           <p>
@@ -101,6 +104,7 @@ const App = ({ Component }: { Component: React.ComponentType }) => {
         </div>
       </main>
     </Provider>
+    </>
   )
 }
 
