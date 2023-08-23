@@ -1,4 +1,5 @@
 import { Cart } from '@models/cart';
+import { Product } from '@models/product';
 import type { NextApiRequest, NextApiResponse } from 'next'
 
 export default function handler(
@@ -7,7 +8,8 @@ export default function handler(
   // ANSWER: 
   res: NextApiResponse<any>
 ) {
-  const cart = JSON.parse(req.body) as Cart;
+  const cart = JSON.parse(req.body).oldCart as Cart;
+  const product = JSON.parse(req.body).product as Product;
   const now = Date.now();
 
   res.status(200).json({
@@ -17,7 +19,7 @@ export default function handler(
     // QUESTION: What does the '??' operator do?
     //           What values of cart.products would cause '[]` to be used for the concat call?
     // ANSWER: 
-    products: (cart.products ?? []).concat({
+    products: (cart.products ?? []).concat(Object.keys(product).length>0?product:{
       id: Date.now().toString(),
       name: `Product ${(Date.now() / 1000).toFixed(0)}`,
       price: now % 2 === 0 ? 56 : 65

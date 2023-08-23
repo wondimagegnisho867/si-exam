@@ -9,8 +9,6 @@ const AddCoupon = () => {
 
   const cart = useSelector(selectCart);
   const alert = useSelector(selectAlert);
-  console.log(alert);
-
   
   /* event handler */
   const addCoupon = async () =>{
@@ -24,7 +22,6 @@ const AddCoupon = () => {
     }
     
     catch(err:any){
-      console.log(err.message);
       setAlert({type:"error",message:err.message});
     }
   }

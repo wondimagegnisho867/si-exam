@@ -3,16 +3,17 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { StoreState } from '@store';
 import { selectCart, selectSubtotal } from './selectors';
 import { computeSubTotal, computeTotal, computeTotalCoupons } from '@utils';
+import { Product } from '@models/product';
 
 export const addProductAsync = createAsyncThunk(
   'cart/addProductAsync',
-  async (_, { getState }) => {
+  async (product:Product|null, { getState }) => {
     const state = getState() as StoreState;
     const oldCart = selectCart(state);
-
+    
     const newCart = await fetch('/api/addProduct', {
       method: 'POST',
-      body: JSON.stringify(oldCart)
+      body: JSON.stringify({oldCart,product:product?{...product}:{}})
     }).then(resp => resp.json())
 
     return newCart as Cart;

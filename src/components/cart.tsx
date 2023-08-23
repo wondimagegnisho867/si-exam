@@ -52,7 +52,7 @@ const Cart = () => {
   return (
     <>
     {domLoaded && <>
-      <h3>My products</h3>
+      <h3>My Added products</h3>
       <table border={1}>
         <thead>
           <tr>
@@ -62,9 +62,9 @@ const Cart = () => {
           </tr>
         </thead>
         <tbody>
-          {(cart.products ?? []).map((p) => {
+          {(cart.products ?? []).map((p,index) => {
             return (
-              <tr key={p.id}>
+              <tr key={`${p.id}${index}`}>
                 <td>{p.name}</td>
                 <td>${p.price.toFixed(2)}</td>
                 <td>
@@ -78,7 +78,7 @@ const Cart = () => {
         </tbody>
       </table>
 
-      <h3>My coupouns</h3>
+      <h3>My Added coupouns</h3>
       <table border={1}>
         <thead>
           <tr>
