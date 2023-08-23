@@ -8,6 +8,7 @@ import {
 } from "@store/app/thunks";
 import { Inter } from "@next/font/google";
 import Link from "next/link";
+import {useRouter} from "next/router";
 
 const inter = Inter({ subsets: ["latin"] });
 import MyHead from "@components/head";
@@ -36,7 +37,7 @@ const App = ({ Component }: { Component: React.ComponentType }) => {
 
   const [cartIsLoading, setCartIsLoading] = useState(false);
   const [products, setProducts] = useState<Product[]>([]);
-
+  const router = useRouter();
   // QUESTION: why do we have to access the store directly here instead of using hooks?
   // ANSWER: Because the hook will not be able to access the store since App component is not under the provider
   useEffect(() => {
@@ -71,6 +72,7 @@ const App = ({ Component }: { Component: React.ComponentType }) => {
       await thunkDispatch(addProductAsync(product)).unwrap();
       await thunkDispatch(recalculateShippingAsync()).unwrap();
       await thunkDispatch(recalculateTaxesAsync()).unwrap();
+      router.push("/cart");
     } catch (err) {
       console.log(err);
     }
