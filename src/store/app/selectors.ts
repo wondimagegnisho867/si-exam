@@ -18,6 +18,11 @@ export const selectCart = createSelector(
   (app) => app.cart,
 );
 
+export const selectAlert = createSelector(
+  selectAppRootState,
+  (app) => app.alert,
+);
+
 export const selectSubtotal = createSelector(
   selectCart,
   (cart) => cart.products?.reduce((subTotal, p) => subTotal + p.price, 0) ?? 0,

@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import './globals.css'
 import styles from '@pages/page.module.css'
-import { addProductAsync } from '@store/app/thunks'
+import { addProductAsync, recalculateShippingAsync, recalculateTaxesAsync } from '@store/app/thunks'
 import { Inter } from '@next/font/google';
 import Link from 'next/link';
 
@@ -14,13 +14,18 @@ import { StoreState } from '@store';
 import { Action } from 'redux';
 import { useEffect, useState } from 'react'
 
-import { selectIsCartLoading } from '@store/app/selectors';
+import { selectAlert, selectCart, selectIsCartLoading } from '@store/app/selectors';
+import { setAlert } from '@store/app/slice';
+import { persistCart } from '@utils/storage';
+import Alert from '@components/Alert';
 
 const App = ({ Component }: { Component: React.ComponentType }) => {
   // QUESTION: What does the `as` keyword do here? Why are we using it?
+  // ANSWER: It casts the type of the variable.
   const thunkDispatch = store.dispatch as ThunkDispatch<StoreState, any, Action<any>>;
 
   const [cartIsLoading, setCartIsLoading] = useState(false);
+  const [appAlert, setAppAlert] = useState(null);
 
   // QUESTION: why do we have to access the store directly here instead of using hooks?
 
@@ -28,7 +33,11 @@ const App = ({ Component }: { Component: React.ComponentType }) => {
     const unsubscribe = store.subscribe(() => {
       const state = store.getState();
       const cartLoading = selectIsCartLoading(state);
+      const cart = selectCart(state);
       setCartIsLoading(cartLoading);
+      persistCart(cart);
+      const alert = selectAlert(state);
+      setAppAlert(alert);
     });
 
     // QUESTION: when will this method returned by the effect be called?
@@ -36,6 +45,19 @@ const App = ({ Component }: { Component: React.ComponentType }) => {
       unsubscribe();
     };
   }, [])
+
+  /* event handler */
+  const addProduct = async () =>{
+    try{
+      await thunkDispatch(addProductAsync()).unwrap();
+      await thunkDispatch(recalculateShippingAsync()).unwrap();
+      await thunkDispatch(recalculateTaxesAsync()).unwrap();
+    }
+    
+    catch(err){
+      console.log(err);
+    }
+  }
 
   if(cartIsLoading){
     return <div className={styles.loader}>
@@ -48,6 +70,7 @@ const App = ({ Component }: { Component: React.ComponentType }) => {
     <MyHead/>
     <Provider store={store}>      
       <main className={styles.main}>
+        <Alert alert={appAlert} />
         <div className={styles.description}>
           <p>
             Get started by editing&nbsp;
@@ -80,7 +103,7 @@ const App = ({ Component }: { Component: React.ComponentType }) => {
         <div className={styles.grid}>
           <button
             className={styles.card}
-            onClick={async () => await thunkDispatch(addProductAsync()).unwrap()}
+            onClick={addProduct}
           >
             <h2 className={inter.className}>
               Add product <span>+</span>

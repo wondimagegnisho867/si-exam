@@ -11,7 +11,7 @@ export default function handler(
   res.status(200).json({
     ...cart,
     coupons: (cart.coupons ?? []).concat({
-      id: '123',
+      id: Date.now().toString(),
       name: `Coupon ${(Date.now() / 1000).toFixed(0)}`,
       discount: now % 2 === 0 ? 25 : 42
     })

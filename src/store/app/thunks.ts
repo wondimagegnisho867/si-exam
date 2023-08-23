@@ -1,7 +1,8 @@
 import { Cart } from '@models/cart';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { StoreState } from '@store';
-import { selectCart } from './selectors';
+import { selectCart, selectSubtotal } from './selectors';
+import { computeSubTotal, computeTotal, computeTotalCoupons } from '@utils';
 
 export const addProductAsync = createAsyncThunk(
   'cart/addProductAsync',
@@ -22,13 +23,26 @@ export const addCouponAsync = createAsyncThunk(
   async (_, { getState }) => {
     const state = getState() as StoreState;
     const oldCart = selectCart(state);
+    const subTotal = selectSubtotal(state);
 
-    const newCart = await fetch('/api/addCoupon', {
+    try{
+      const newCart = await fetch('/api/addCoupon', {
       method: 'POST',
       body: JSON.stringify(oldCart)
     }).then(resp => resp.json())
+    newCart as Cart;
+    const newCouponsAmount = computeTotalCoupons(newCart.coupons);
+    const newSubTotal = computeSubTotal(newCart.products);
+    const newTotal = computeTotal(newSubTotal,newCart.shippingPrice,newCart.taxes,newCouponsAmount);
 
-    return newCart as Cart;
+    if(newTotal < subTotal/2){
+      throw("Total bill should not be more than half of the total product costs")
+    }
+    return newCart;
+    }catch(err){
+      throw(err);
+    }
+    
   })
   
 export const recalculateShippingAsync = createAsyncThunk(

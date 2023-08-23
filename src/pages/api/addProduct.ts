@@ -18,7 +18,7 @@ export default function handler(
     //           What values of cart.products would cause '[]` to be used for the concat call?
     // ANSWER: 
     products: (cart.products ?? []).concat({
-      id: '123',
+      id: Date.now().toString(),
       name: `Product ${(Date.now() / 1000).toFixed(0)}`,
       price: now % 2 === 0 ? 56 : 65
     })
