@@ -45,7 +45,12 @@ Deploy to a web hosting service
 
 ## Questions
 When you refresh the cart page, the cart disappears, why is this?
+Answer: Because it is stored in the state which reinitalizes the store when page is refreshed
 What is the difference between a default and a non-default export?
+default export enables to import without curly brace and it can be named anything
 Could you give a broad overview of how Redux works?
+Redux is a state management that helps to avoid props drilling by making states available at deeper components
 When is a React component re-rendered?
+When state changes it rerenders
 When is a React component function called? Is this the same as when it's re-rendered?
+It is called when it is rendered by using it as an html tag in any component
