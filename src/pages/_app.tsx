@@ -19,11 +19,9 @@ import { Action } from "redux";
 import { useEffect, useState } from "react";
 
 import {
-  selectAlert,
   selectCart,
   selectIsCartLoading,
 } from "@store/app/selectors";
-import { setAlert } from "@store/app/slice";
 import { persistCart } from "@utils/storage";
 import Alert from "@components/Alert";
 import { Product } from "@models/product";
@@ -38,7 +36,6 @@ const App = ({ Component }: { Component: React.ComponentType }) => {
   >;
 
   const [cartIsLoading, setCartIsLoading] = useState(false);
-  const [appAlert, setAppAlert] = useState(null);
   const [products, setProducts] = useState<Product[]>([]);
 
   // QUESTION: why do we have to access the store directly here instead of using hooks?

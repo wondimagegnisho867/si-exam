@@ -1,14 +1,12 @@
 import { useThunkDispatch } from '@hooks/useThunkDispatch';
 import { addCouponAsync, recalculateShippingAsync, recalculateTaxesAsync } from '@store/app/thunks';
-import { selectCart,selectAlert } from "@store/app/selectors";
+import { selectCart} from "@store/app/selectors";
 import { useSelector } from "react-redux";
-import { setAlert } from '@store/app/slice';
 
 const AddCoupon = () => {
   const thunkDispatch = useThunkDispatch();
 
   const cart = useSelector(selectCart);
-  const alert = useSelector(selectAlert);
   
   /* event handler */
   const addCoupon = async () =>{
@@ -22,7 +20,7 @@ const AddCoupon = () => {
     }
     
     catch(err:any){
-      setAlert({type:"error",message:err.message});
+      console.log(err);
     }
   }
   

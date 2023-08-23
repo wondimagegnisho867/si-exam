@@ -1,5 +1,4 @@
 import { Cart } from '@/models/cart';
-import { Alert } from '@models/alert';
 import { ActionCreatorWithPayload, createSlice } from '@reduxjs/toolkit';
 import { addCouponAsync, addProductAsync, recalculateShippingAsync, recalculateTaxesAsync } from './thunks';
 import { getPersistantCart } from '@utils/storage';
@@ -7,28 +6,19 @@ import { getPersistantCart } from '@utils/storage';
 export interface AppState {
   isCartLoading: boolean;
   cart: Cart;
-  alert: Alert|null;
 }
 
 export const appSlice = createSlice({
   name: 'app',
   initialState: {
     isCartLoading: false,
-    cart: (typeof window !== 'undefined' && getPersistantCart()) ?? {} as Cart,
-    alert: null as Alert|null
+    cart: (typeof window !== 'undefined' && getPersistantCart()) ?? {} as Cart
   },
   reducers: {
     setCart: (state, { payload }: { payload: Cart }) => {
       return {
         ...state,
         cart: payload,
-      }
-    },
-    setAlert: (state, { payload }: { payload: Alert|null}) => {
-      console.log(payload);
-      return {
-        ...state,
-        alert: payload,
       }
     },
     removeProduct: (state, { payload }: {payload: string}) => {
@@ -78,11 +68,9 @@ export const appSlice = createSlice({
 export const { 
   setCart,
   removeProduct,
-  removeCoupoun,
-  setAlert
+  removeCoupoun
 } = appSlice.actions as {
   setCart: ActionCreatorWithPayload<Cart, string>;
   removeProduct: ActionCreatorWithPayload<string, string>;
   removeCoupoun: ActionCreatorWithPayload<string, string>;
-  setAlert: ActionCreatorWithPayload<Alert|null, string>;
 }
