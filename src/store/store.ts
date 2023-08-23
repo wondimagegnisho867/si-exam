@@ -7,7 +7,7 @@ export const rootReducer = combineReducers({
 });
 
 // QUESTION: Why would we use thunk middleware? What advantage does this give us?
-// ANSWER: 
+// ANSWER: Thunk is used to handle asynchronous logic
 const composedEnhancer = applyMiddleware(thunkMiddleware)
 
 export const store = configureStore({

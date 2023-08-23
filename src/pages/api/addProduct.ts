@@ -5,7 +5,7 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 export default function handler(
   req: NextApiRequest,
   // QUESTION: Why might we prefer unknown here instead of any?
-  // ANSWER: 
+  // ANSWER: Because unkown is type safe
   res: NextApiResponse<any>
 ) {
   const cart = JSON.parse(req.body).oldCart as Cart;
@@ -14,11 +14,11 @@ export default function handler(
 
   res.status(200).json({
     // QUESTION: What does the '...' operator do?
-    // ANSWER: 
+    // ANSWER:  It means spread operator, it lists the key-pairs in the object
     ...cart,
     // QUESTION: What does the '??' operator do?
     //           What values of cart.products would cause '[]` to be used for the concat call?
-    // ANSWER: 
+    // ANSWER: when cart.products is null it will contactenate the new product to an empty list.
     products: (cart.products ?? []).concat(Object.keys(product).length>0?product:{
       id: Date.now().toString(),
       name: `Product ${(Date.now() / 1000).toFixed(0)}`,

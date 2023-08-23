@@ -3,6 +3,8 @@ import { selectRootState } from '..';
 
 // QUESTION: Why are we using createSelector here? What is the advantage over
 // plain functions?
+// ANSWER: CreateSelector enables us to write a less bulky code and it also enables us to reuse 
+// previously written selector function
 export const selectAppRootState = createSelector(
   selectRootState,
   (state) => state.app

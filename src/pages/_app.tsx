@@ -39,7 +39,7 @@ const App = ({ Component }: { Component: React.ComponentType }) => {
   const [products, setProducts] = useState<Product[]>([]);
 
   // QUESTION: why do we have to access the store directly here instead of using hooks?
-
+  // ANSWER: Because the hook will not be able to access the store since App component is not under the provider
   useEffect(() => {
     const unsubscribe = store.subscribe(() => {
       const state = store.getState();
@@ -60,6 +60,7 @@ const App = ({ Component }: { Component: React.ComponentType }) => {
     fetchProducts();
 
     // QUESTION: when will this method returned by the effect be called?
+    // ANSWER: When unmount
     return () => {
       unsubscribe();
     };

@@ -4,7 +4,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 export default function handler(
   req: NextApiRequest,
   // QUESTION: Why might we prefer unknown here instead of any?
-  // ANSWER:
+  // ANSWER: Because unknown is type safe
   res: NextApiResponse<any>
 ) {
   res.status(200).json({
