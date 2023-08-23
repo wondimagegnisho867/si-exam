@@ -12,7 +12,7 @@ export const appSlice = createSlice({
   name: 'app',
   initialState: {
     isCartLoading: false,
-    cart: (typeof window !== 'undefined' && getPersistantCart()) ?? {} as Cart
+    cart: ((typeof window !== 'undefined') ? getPersistantCart() : {}) as Cart
   },
   reducers: {
     setCart: (state, { payload }: { payload: Cart }) => {

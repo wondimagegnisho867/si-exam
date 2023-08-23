@@ -23,7 +23,6 @@ import {
   selectIsCartLoading,
 } from "@store/app/selectors";
 import { persistCart } from "@utils/storage";
-import Alert from "@components/Alert";
 import { Product } from "@models/product";
 
 const App = ({ Component }: { Component: React.ComponentType }) => {
@@ -43,8 +42,8 @@ const App = ({ Component }: { Component: React.ComponentType }) => {
   useEffect(() => {
     const unsubscribe = store.subscribe(() => {
       const state = store.getState();
-      const cartLoading = selectIsCartLoading(state);
-      const cart = selectCart(state);
+      const cartLoading = selectIsCartLoading(state as any);
+      const cart = selectCart(state as any);
       setCartIsLoading(cartLoading);
       persistCart(cart);
     });
@@ -90,7 +89,6 @@ const App = ({ Component }: { Component: React.ComponentType }) => {
       <MyHead />
       <Provider store={store}>
         <main className={styles.main}>
-          <Alert alert={appAlert} />
           <div className={styles.description}>
             <p>
               Get started by editing&nbsp;
